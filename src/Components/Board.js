@@ -26,7 +26,6 @@ export const Board = () => {
     context.lineCap = "round";
     contextRef.current = context;
   }, []);
-
   useEffect(() => {
     contextRef.current.strokeStyle = brushColor;
   }, [brushColor]);
@@ -50,6 +49,7 @@ export const Board = () => {
           nonHighlighterPath[i].path[j + 1].offsetY
         );
       }
+      contextRef.current.globalAlpha = 1;
       contextRef.current.strokeStyle = nonHighlighterPath[i].brushColor;
       contextRef.current.lineWidth = nonHighlighterPath[i].brushSize;
       contextRef.current.stroke();
@@ -68,6 +68,9 @@ export const Board = () => {
       window.innerHeight * 2
     );
     reDraw();
+    if (brushType === BRUSH_TYPE.HIGHLIGHTER)
+      contextRef.current.globalAlpha = 0.5;
+    else contextRef.current.globalAlpha = 1;
     contextRef.current.beginPath();
     contextRef.current.moveTo(offsetX, offsetY);
     setIsDrawing(true);
@@ -92,7 +95,7 @@ export const Board = () => {
     contextRef.current.lineTo(offsetX, offsetY);
     contextRef.current.stroke();
   };
-  console.log(nonHighlighterPath);
+  console.log(contextRef);
   return (
     <canvas
       onMouseDown={startDrawing}
