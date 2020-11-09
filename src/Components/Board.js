@@ -31,11 +31,6 @@ export const Board = () => {
     contextRef.current.strokeStyle = brushColor;
   }, [brushColor]);
   useEffect(() => {
-    if (brushType === BRUSH_TYPE.HIGHLIGHTER)
-      contextRef.current.globalCompositeOperation = "multiply";
-    else contextRef.current.globalCompositeOperation = "source-over";
-  }, [brushType]);
-  useEffect(() => {
     contextRef.current.lineWidth = brushSize;
   }, [brushSize]);
 
@@ -55,8 +50,8 @@ export const Board = () => {
           nonHighlighterPath[i].path[j + 1].offsetY
         );
       }
-      contextRef.current.strokeStyle = "#FFF";
-      contextRef.current.lineWidth = 10;
+      contextRef.current.strokeStyle = nonHighlighterPath[i].brushColor;
+      contextRef.current.lineWidth = nonHighlighterPath[i].brushSize;
       contextRef.current.stroke();
       contextRef.current.closePath();
     }
@@ -66,12 +61,12 @@ export const Board = () => {
 
   const startDrawing = ({ nativeEvent: { offsetX, offsetY } }) => {
     line = {};
-    // contextRef.current.clearRect(
-    //   0,
-    //   0,
-    //   window.innerWidth * 2,
-    //   window.innerHeight * 2
-    // );
+    contextRef.current.clearRect(
+      0,
+      0,
+      window.innerWidth * 2,
+      window.innerHeight * 2
+    );
     reDraw();
     contextRef.current.beginPath();
     contextRef.current.moveTo(offsetX, offsetY);
@@ -81,7 +76,11 @@ export const Board = () => {
   const finishDrawing = () => {
     line.brushColor = brushColor;
     line.brushSize = brushSize;
-    if (brushType === BRUSH_TYPE.HIGHLIGHTER)
+    if (
+      brushType !== BRUSH_TYPE.HIGHLIGHTER &&
+      line.path &&
+      line.path.length > 0
+    )
       setNonHighlighterPath([...nonHighlighterPath, line]);
     contextRef.current.closePath();
     setIsDrawing(false);

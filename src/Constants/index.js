@@ -48,8 +48,8 @@ export const SUBTOOLS = {
     icon: CgColorBucket,
   },
 };
-export const DEFAULT_COLOR = "#000";
+export const DEFAULT_COLOR = "#000000";
 
 export const DEFAULT_SIZE = BRUSH_SIZE.SMALL;
 
-export const ERASER_COLOR = "#fff";
+export const ERASER_COLOR = "#ffffff";

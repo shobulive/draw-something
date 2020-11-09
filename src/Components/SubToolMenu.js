@@ -28,7 +28,7 @@ const PickerContainer = styled("div")`
   top: 60px;
   left: 0px;
 `;
-const renerChild = (type, setBrushColor) => {
+const renderChild = (type, setBrushColor) => {
   switch (type) {
     case SUBTOOL_TYPES.COLOR_PICKER:
       return (
@@ -57,7 +57,7 @@ export const SubToolMenu = (props) => {
           props[SUBTOOLS[key].allowedProp] && (
             <SubMenu key={index}>
               <SubIcon></SubIcon>
-              {renerChild(key, setBrushColor)}
+              {renderChild(key, setBrushColor)}
             </SubMenu>
           )
         );
